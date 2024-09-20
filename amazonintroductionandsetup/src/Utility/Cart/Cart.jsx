@@ -5,7 +5,8 @@ import ProductCard from "../../Components/Products/ProductCard";
 import CurrencyFormat from '../../Components/CurrencyFormat/CurrencyFormat'
 import {Link} from 'react-router-dom'
 function Cart() {
-    const [{basket},user,dispatch] = useContext(dataContext)
+    const [{basket,user},dispatch] = useContext(dataContext)
+    const total = basket.reduce((amount,item)=>item.price+amount,0)
   return (
     <LayOut>
     <section>
@@ -33,13 +34,13 @@ function Cart() {
 <div>
     <div>
         <p>Subtotal ({basket?.length} items)</p>
-        <CurrencyFormat amount='total'/>
+        <CurrencyFormat amount={total}/>
     </div>
     <span>
         <input type="checkbox"/> 
         <small>This order contains a gift</small>
     </span>
-    <Link to = "/Payments"> Continue to Checkout </Link>
+    <Link to ="/Payments"> Continue to Checkout </Link>
 </div>
 
            )}
