@@ -26,7 +26,7 @@ useEffect(() => {
     
     {
     products?.map((singleproduct) => {
-         return   <ProductCard product = {singleproduct} key={singleproduct.id}/>
+         return   <ProductCard renderAdd={true} product = {singleproduct} key={singleproduct.id}/>
 })
     }
    </section>)
