@@ -4,13 +4,15 @@ import dataContext from '../../Components/DataProvider/DataProvider'
 import ProductCard from "../../Components/Products/ProductCard";
 import CurrencyFormat from '../../Components/CurrencyFormat/CurrencyFormat'
 import {Link} from 'react-router-dom'
+import classes from './Cart.module.css'
 function Cart() {
     const [{basket,user},dispatch] = useContext(dataContext)
-    const total = basket.reduce((amount,item)=>item.price+amount,0)
+    const total = basket.reduce((amount,item)=>{
+        return item.price*item.amount+amount},0)
   return (
     <LayOut>
-    <section>
-        <div>
+    <section className={classes.container}>
+        <div className={classes.cart_content}>
             <h2>Hello</h2>
             <h3>Your shopping Basket</h3>
             <hr />
@@ -31,7 +33,7 @@ function Cart() {
         </div>
         <div>
            { basket?.length !==0&&(
-<div>
+<div className={classes.subtotal}>
     <div>
         <p>Subtotal ({basket?.length} items)</p>
         <CurrencyFormat amount={total}/>
