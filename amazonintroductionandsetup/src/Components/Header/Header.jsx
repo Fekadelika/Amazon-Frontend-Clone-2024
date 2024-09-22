@@ -7,13 +7,13 @@ import { BiCart } from "react-icons/bi";
 import LowerHeader from "./LowerHeader";
 import { DataContext } from "../DataProvider/DataProvider";
 
-
 const Header = () => {
+  const [{ basket, user }, dispatch] = useContext(DataContext); // Make sure to access `user` from context
 
-const [{basket},dispatch] = useContext(DataContext)
-const totalItem = basket?.reduce((amount, item) => {
-  return item.amount + amount;
-}, 0);
+  const totalItem = basket?.reduce((amount, item) => {
+    return item.amount + amount;
+  }, 0);
+
   return (
     <section className={classes.fixed}>
       <section>
@@ -59,14 +59,25 @@ const totalItem = basket?.reduce((amount, item) => {
             </Link>
 
             {/* Account Sign In */}
-            <Link to="#">
-              <p>Sign In</p>
-              <span>Account & Lists</span>
+            <Link to={!user && "/auth"}>
+              <div>
+                {user ? (
+                  <>
+                    <p>Hello {user?.email?.split("@")[0]}</p>
+                    <span onClick={() => auth.signOut()}>Sign Out</span>
+                  </>
+                ) : (
+                  <>
+                    <p>Hello, Sign In</p>
+                    <span>Account & Lists</span>
+                  </>
+                )}
+              </div>
             </Link>
 
             {/* Orders Section */}
             <Link to="/orders">
-              <p>returns</p>
+              <p>Returns</p>
               <span>& Orders</span>
             </Link>
 
