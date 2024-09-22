@@ -3,7 +3,7 @@ import LayOut from "../../LayOut/LayOut";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { productUrl } from "../../Api/endPoints";
-import ProductCard from "../../Components/Products/ProductCard";
+import ProductCard from "../../Components/Product/ProductCard";
 import Loader from "../../Components/Loader/Loader";
 
 function ProductDetail() {
@@ -13,27 +13,33 @@ function ProductDetail() {
 
   useEffect(() => {
     setIsLoading(true);
-    axios.get(`${productUrl}/products/${productId}`)
+    axios
+      .get(`${productUrl}/products/${productId}`)
       .then((res) => {
         setProduct(res.data);
-        setIsLoading(false) // Stop loading when the data is fetched
-      }).catch((err) =>{
-        console.error(err) // Log the error
-        setIsLoading(false)
-         // Stop loading even if there's an error
+        setIsLoading(false); // Stop loading when the data is fetched
       })
-  }, []) // Re-fetch when productId changes
+      .catch((err) => {
+        console.error(err); // Log the error
+        setIsLoading(false);
+        // Stop loading even if there's an error
+      });
+  }, []); // Re-fetch when productId changes
 
   return (
     <LayOut>
-      {isLoading? ( <Loader/>):(<ProductCard 
-      product={product}
-      flex={true}
-       renderDesc={true}
-       renderAdd={true}
-      />)}
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <ProductCard
+          product={product}
+          flex={true}
+          renderDesc={true}
+          renderAdd={true}
+        />
+      )}
     </LayOut>
-  )
+  );
 }
 
-export default ProductDetail
+export default ProductDetail;

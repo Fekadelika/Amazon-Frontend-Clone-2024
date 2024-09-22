@@ -7,10 +7,6 @@
     position: relative;
    
   }
-.container dev:not(.subtotal) {
-  height: auto !important;
-}
-
   .card__container:hover .button{
     display: block;
   }
@@ -89,3 +85,4 @@
       flex-direction: column;
     }
   }
+
