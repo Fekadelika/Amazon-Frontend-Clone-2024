@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState,useContext } from 'react'
 import classes from './SignUp.module.css'
 import { Link } from 'react-router-dom';
 import {auth} from '../../Utility/firebase'
 import {signInWithEmailAndPassword, createUserWithEmailAndPassword} from 'firebase/auth'
+import {DataContext} from '../../Components/DataProvider/DataProvider';
+import { Type } from '../../Utility/action.type';
 
 
 function Auth() {
@@ -11,6 +13,9 @@ function Auth() {
   const [password, setPassword] = useState("");
   const [error,setError] = useState("");
   // console.log(password,email);
+
+  const [{user},dispatch] = useContext(DataContext)
+  console.log(user);
   
 const authHandler = async(e) => {
   e.preventDefault();
@@ -20,7 +25,10 @@ const authHandler = async(e) => {
     // firebase aut
     signInWithEmailAndPassword(auth, email, password)
       .then((userInfo) => {
-        console.log(userInfo);
+       
+        dispatch({
+          type: Type.SET_USER,
+          user: userInfo.user,})
         
       })
       .catch((error) => {
@@ -29,7 +37,11 @@ const authHandler = async(e) => {
     
   }else{
 createUserWithEmailAndPassword(auth, email, password).then((userInfo) => {
-  console.log(userInfo);
+  
+  dispatch({
+    type: Type.SET_USER,
+    user: userInfo.user,
+  });
 }).catch((error) => {
   console.log(error);
 })
