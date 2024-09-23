@@ -1,9 +1,49 @@
-import React from 'react'
+import React, { useState } from 'react'
 import classes from './SignUp.module.css'
 import { Link } from 'react-router-dom';
+import {auth} from '../../Utility/firebase'
+import {signInWithEmailAndPassword, createUserWithEmailAndPassword} from 'firebase/auth'
 
 
 function Auth() {
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error,setError] = useState("");
+  // console.log(password,email);
+  
+const authHandler = async(e) => {
+  e.preventDefault();
+  console.log(e.target.name);
+
+  if (e.target.name == "signin") {
+    // firebase aut
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userInfo) => {
+        console.log(userInfo);
+        
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    
+  }else{
+createUserWithEmailAndPassword(auth, email, password).then((userInfo) => {
+  console.log(userInfo);
+}).catch((error) => {
+  console.log(error);
+})
+
+
+
+
+
+
+  }
+  };
+
+
+
   return (
     <section className={classes.login}>
       {/* logo  */}
@@ -22,23 +62,27 @@ function Auth() {
           <div>
 
             <label htmlFor="email">Email</label>
-            <input type="email" id="email" />
+            <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" id="email" />
 
           </div>
           <div>
 
             <label htmlFor="password">Password</label>
-            <input type="password" id="password" />
+            <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" id="password" />
           </div>
 
          
-            <button className={classes.login__signInButton}>Sign In</button>
+            <button type="submit" onClick={authHandler} 
+            name="signIn"
+            className={classes.login__signInButton}>Sign In</button>
          
         </form>
 {/* agreement */}
 <p>By continuing, you agree to Amazon fake clone's Conditions of Use and Privacy Notice.</p>
 {/* create account */}
-<button className={classes.login__registerButton}>Create your Amazon Account</button>
+<button type="submit" 
+name="signUp"
+onClick={authHandler} className={classes.login__registerButton}>Create your Amazon Account</button>
 
 
       </div>
