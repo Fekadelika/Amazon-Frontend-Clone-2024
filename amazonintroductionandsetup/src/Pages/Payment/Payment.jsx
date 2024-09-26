@@ -46,7 +46,7 @@ function Payment() {
 
       //2client side (react side confirmation)
 
-      const paymentIntent = await stripe.confirmCardPayment(clientSecret, {
+      const {paymentIntent} = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
           card: elements.getElement(CardElement),
         },
