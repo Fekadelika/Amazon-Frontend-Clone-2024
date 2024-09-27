@@ -7,7 +7,7 @@ export const initialState = {
 
 export const reducer = (state, action) => {
   switch (action.type) {
-    case Type.ADD_TO_BASKET: {
+    case Type.ADD_TO_BASKET: 
       // Check if the item already exists in the basket
       const existingItem = state.basket.find(
         (item) => item.id === action.item.id
@@ -28,7 +28,7 @@ export const reducer = (state, action) => {
               : item
           ),
         };
-      }
+      
     }
 
     case Type.REMOVE_FROM_BASKET: {
