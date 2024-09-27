@@ -3,10 +3,13 @@ const logger = require("firebase-functions/logger");
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
+const { setGlobalOptions } = require("firebase-functions/v2");
 dotenv.config();
 const stripe = require("stripe")(process.env.STRIPE_KEY);
-
 const app = express();
+
+setGlobalOptions({ maxInstances: 10 });
+
 app.use(cors({ origin: true }));
 
 app.use(express.json());
@@ -25,7 +28,6 @@ app.post("/payment/create", async (req, res) => {
       amount: total,
       currency: "usd",
     });
-
 
     res.status(201).json({
       clientSecret: paymentIntent.client_secret,
